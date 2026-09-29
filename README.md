@@ -221,7 +221,7 @@ power-resource-allocation/
 ```bash
 # Clone the repository
 git clone https://github.com/Jatin17D/AI-Powered-Resource-Allocation-System-with-Fine-Tuned-LLM.git
-cd power-resource-allocation
+cd AI-Powered-Resource-Allocation-System-with-Fine-Tuned-LLM
 
 # Create virtual environment
 python -m venv venv
@@ -238,12 +238,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables (Optional for Hugging Face Cloud API)
-Create a `.env` file in the root directory:
+### 4. Configure Environment Variables (Optional)
+> **Note:** The project works **100% offline out of the box** without any API keys. A token is only needed if you wish to query the Hugging Face Serverless Cloud API or use gated models like Llama-3.
+
 ```bash
 cp .env.example .env
 ```
-Add your Hugging Face User Access Token (from [Hugging Face Settings](https://huggingface.co/settings/tokens)):
+Optional: Add your Hugging Face User Access Token (from [Hugging Face Settings](https://huggingface.co/settings/tokens)):
 ```env
 HF_TOKEN=hf_your_actual_token_here
 HF_MODEL_NAME=TinyLlama/TinyLlama-1.1B-Chat-v1.0
@@ -271,9 +272,13 @@ Pass any natural language requirement directly via CLI:
 python resource_allocation.py --query "I need a boiler with 5 years experience, budget Rs. 60,000, 5000 L/day water throughput for acid processing."
 ```
 
-### 4. Running with Hugging Face Model
-To route slot extraction through Hugging Face Serverless API or local fine-tuned weights:
+### 4. Running with Fine-Tuned / Hugging Face Model
+To route slot extraction through the included fine-tuned LoRA model or base model:
 ```bash
+# Run with the included local fine-tuned LoRA adapter (runs offline):
+python resource_allocation.py --use-hf --hf-model ./fine_tuned_allocator
+
+# Or run with the base TinyLlama model:
 python resource_allocation.py --use-hf --hf-model TinyLlama/TinyLlama-1.1B-Chat-v1.0
 ```
 
