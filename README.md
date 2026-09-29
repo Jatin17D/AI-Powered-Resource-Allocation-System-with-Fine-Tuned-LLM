@@ -220,7 +220,7 @@ power-resource-allocation/
 ### 2. Clone and Create Virtual Environment
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/power-resource-allocation.git
+git clone https://github.com/Jatin17D/AI-Powered-Resource-Allocation-System-with-Fine-Tuned-LLM.git
 cd power-resource-allocation
 
 # Create virtual environment
