@@ -225,9 +225,12 @@ class RequirementParser:
     OUT_OF_DOMAIN_PATTERNS = [
         r'\bweather\b', r'\bforecast\b', r'\btemperature\b', r'\brain\b', r'\bsnow\b',
         r'\bjoke\b', r'\brecipe\b', r'\bcook\b', r'\bbake\b', r'\bmovie\b', r'\bsong\b',
-        r'\bpoem\b', r'\bwho is\b', r'\bwho won\b', r'\bcricket\b', r'\bfootball\b',
-        r'\bpolitics\b', r'\bcapital of\b', r'\bhow are you\b', r'\bwhat is your name\b',
-        r'\btell me a story\b', r'\bstock market\b', r'\bbitcoin\b', r'\btranslate\b'
+        r'\bpoem\b', r'\bwho is\b', r'\bwho won\b', r'\bcricket\b', r'\bcricketer\b',
+        r'\bsport\b', r'\bsports\b', r'\bfootball\b', r'\bsoccer\b', r'\bplayer\b',
+        r'\bcelebrity\b', r'\bactor\b', r'\bactress\b', r'\bpolitics\b', r'\bpresident\b',
+        r'\bprime minister\b', r'\bcapital of\b', r'\bhow are you\b', r'\bwhat is your name\b',
+        r'\btell me a story\b', r'\bstock market\b', r'\bbitcoin\b', r'\bcrypto\b',
+        r'\btranslate\b', r'\bgold price\b', r'\bnews\b', r'\bhoroscope\b', r'\bastrology\b'
     ]
 
     DOMAIN_KEYWORDS = [
@@ -238,12 +241,24 @@ class RequirementParser:
     ]
 
     def _is_out_of_domain(self, text: str, resource_type: str, has_specs: bool) -> bool:
+        if not text or not text.strip():
+            return False
         lower = text.lower().strip()
-        # Direct match for known out-of-domain conversational queries
+        # 1. Direct match for known out-of-domain conversational queries
         for pattern in self.OUT_OF_DOMAIN_PATTERNS:
             if re.search(pattern, lower):
                 return True
-        # If no resource type matched and no technical specs extracted
+
+        # 2. General conversational questions without technical domain context
+        conversational_starts = [
+            "who is ", "who are ", "who was ", "tell me about ", "what is the capital",
+            "how to make ", "how to play ", "lyrics of ", "sing a ", "write a poem",
+            "tell me a joke", "best cricketer", "best player", "best team"
+        ]
+        if any(lower.startswith(prefix) for prefix in conversational_starts):
+            return True
+
+        # 3. If no resource type matched and no technical specs extracted
         if resource_type == "Any" and not has_specs:
             has_domain_term = any(term in lower for term in self.DOMAIN_KEYWORDS)
             if not has_domain_term:

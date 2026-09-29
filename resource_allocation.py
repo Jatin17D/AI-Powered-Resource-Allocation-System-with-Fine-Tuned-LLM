@@ -214,15 +214,29 @@ def gather_requirements_interactive(system: ResourceAllocationSystem, initial_te
     display_profile_status(req)
 
     # 1. Ask for Resource Type if missing
-    if req.resource_type == "Any":
+    while req.resource_type == "Any":
         print("\n[?] What category of resource do you require?")
-        print("    Examples: 'Boiler', 'Refrigerant', 'Water Treatment', 'Consultant', 'Engineer'")
+        print("    Valid categories: 'Boiler', 'Refrigerant', 'Water Treatment', 'Consultant', 'Engineer'")
         user_val = input("    Resource Type >> ").strip()
         if user_val.lower() in ["exit", "quit", "q"]:
             return None
         if user_val:
-            req = system.parser.merge_requirements(req, user_val)
-            display_profile_status(req)
+            # Check if user input matches a recognized category
+            matched_cat = None
+            for kw, standard_type in system.parser.KNOWN_RESOURCE_TYPES.items():
+                if kw in user_val.lower():
+                    matched_cat = standard_type
+                    break
+            if matched_cat:
+                req = system.parser.merge_requirements(req, matched_cat)
+                display_profile_status(req)
+                break
+            else:
+                print(f"    [!] '{user_val}' is not a recognized industrial resource category.")
+                print("        Please enter one of: Boiler, Refrigerant, Water Treatment, Consultant, Engineer.")
+        else:
+            # User pressed enter without typing
+            break
 
     # 2. Ask for Experience if missing
     if req.min_experience_years is None:
@@ -299,6 +313,14 @@ def interactive_mode(system: ResourceAllocationSystem):
             if user_input.lower() == "demo":
                 run_demo_scenarios(system)
                 continue
+
+            # Check domain guardrail immediately on initial input
+            if user_input:
+                initial_req = system.parser.parse(user_input)
+                if initial_req.is_unrelated:
+                    resp = system.explainer.explain(initial_req, [])
+                    system.display_response(resp)
+                    continue
 
             # Stage 1: Gather all requirements from user
             final_req = gather_requirements_interactive(system, initial_text=user_input if user_input else None)
