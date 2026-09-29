@@ -1,0 +1,103 @@
+# ==============================================================================
+# Git Ignore Configuration for Power Resource Allocation AI Project
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Security & Environment Variables (CRITICAL: Never commit secrets)
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.env
+*.pem
+*.key
+
+# ------------------------------------------------------------------------------
+# 2. Python Bytecode & Runtime Cache
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ------------------------------------------------------------------------------
+# 3. Virtual Environments
+# ------------------------------------------------------------------------------
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# ------------------------------------------------------------------------------
+# 4. Testing, Coverage & Linters
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# ------------------------------------------------------------------------------
+# 5. Machine Learning & Training Artifacts
+# ------------------------------------------------------------------------------
+# Logging & Checkpoint directories
+wandb/
+runs/
+checkpoints/
+logs/
+*.log
+.cache/
+hf_cache/
+
+# Large full-model weight formats (>100MB)
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# NOTE: The lightweight LoRA adapter in 'fine_tuned_allocator/' (~4.5MB) is 
+# tracked by default so interviewers/evaluators can run the fine-tuned model 
+# immediately after cloning without re-training.
+# If you prefer to exclude the LoRA adapter as well, uncomment the line below:
+# fine_tuned_allocator/
+
+# ------------------------------------------------------------------------------
+# 6. IDEs & Operating System Artifacts
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.tmp
+*.bak
+*.swp
+*~
