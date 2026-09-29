@@ -335,6 +335,6 @@ Please provide an industrial equipment, personnel, budget, or engineering requir
 
 ## Author & Submission Details
 
-- **Author:** Chirag
+- **Author:** Jatin Dudhani
 - **Project:** AI-Powered Resource Allocation System
 - **Focus Areas:** Natural Language Understanding, Fine-Tuning (LoRA), Neuro-Symbolic AI, Multi-Criteria Optimization.
